@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react"
+import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 import OrigemIcon from "../src/assets/icons/origemIcon.svg"
 import DestinoIcon from "../src/assets/icons/destinoIcon.svg"
 import CalendarIcon from "../src/assets/icons/calendarioIcon.svg"
@@ -12,6 +12,7 @@ import GraficoDescrecenteIcon from "../src/assets/icons/graficoDescrecenteIcon.s
 import AviaoIcon from "../src/assets/icons/aviaoIcon.svg"
 import InverterIcon from "../src/assets/icons/inverterIcon.svg"
 import SacoDinheiroIcon from "../src/assets/icons/sacoDinheiroIcon.svg"
+import Header from "./components/Header";
 
 const priceData = [
   { date: "qui", price: 1800 },
@@ -45,10 +46,9 @@ export default function App() {
   const [showOriginSuggestions, setShowOriginSuggestions] = useState(false)
   const [showDestinationSuggestions, setShowDestinationSuggestions] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const dateInputRef = useRef<HTMLInputElement>(null)
 
   const handleSearch = () => {
-    if (!origin || !destination || !date) return
+    if (!origin || !destination) return
     if (origin.trim() === destination.trim()) {
       alert("Origem e destino não podem ser iguais.")
       return
@@ -211,25 +211,14 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#DAEAF3]">
       {/* HEADER */}
-      <header className="bg-white py-4 shadow">
-        <div className="max-w-6xl mx-auto flex justify-between items-center px-4">
-          <div className="flex items-center gap-2">
-            <img src="/src/assets/logo.png" alt="Flytics" className="h-8" />
-            <span className="font-bold text-lg text-[#3693C3]">Flytics</span>
-          </div>
-          <nav className="space-x-6 text-sm text-gray-500">
-            <a href="#" className="hover:underline">Como funciona</a>
-            <a href="#" className="hover:underline">Contato</a>
-          </nav>
-        </div>
-      </header>
+      < Header />
 
       {/* HERO */}
-      <section className="min-h-[70vh] flex items-center justify-center p-4">
+      <section className="min-h-[70vh] flex items-center justify-center p-6 md:p-8 min-h-screen">
         <div className="w-full max-w-5xl text-center">
 
           {/* Titulo */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-5xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-5xl mx-auto mb-8">
             <div className="mb-12">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                 Encontre a <span className="text-blue-600">melhor data</span> para sua viagem
@@ -317,52 +306,69 @@ export default function App() {
                 </button>
               </div>
 
-              {/* Date Input */}
-              <div className="max-w-md mx-auto">
-                <div className="flex items-center gap-2 mb-2">
-                  <img src={CalendarIcon} alt="Data" className="w-5 h-5" />
-                  <label className="text-sm font-medium text-gray-700">
-                    Quando você quer viajar?
-                  </label>
-                </div>
-                <div className="relative date-picker-container">
-                  {/* Campo customizado que simula o input de data */}
-                  <div
-                    className="h-12 w-full px-4 py-3 text-lg border border-gray-300 rounded-md bg-white cursor-pointer hover:border-gray-400 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all duration-200 flex items-center justify-between"
-                    onClick={() => {
-                      // Foca no input de data para abrir o calendário
-                      if (dateInputRef.current) {
-                        dateInputRef.current.showPicker()
-                      }
-                    }}
-                  >
-                    <span className={`${date ? 'text-gray-900' : 'text-gray-500'}`}>
-                      {formatDateForDisplay(date)}
-                    </span>
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+              {/* Date, Passageiros e Classe */}
+              <div className="flex flex-col md:flex-row justify-between items-center gap-6 w-full max-w-4xl mx-auto">
+
+                {/* Datas */}
+                <div className="flex flex-col sm:flex-row gap-6 w-full md:w-1/2">
+                  {/* Data de Ida */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <img src={CalendarIcon} alt="Data de Ida" className="w-5 h-5 text-blue-500" />
+                      <label className="text-sm font-medium text-gray-700">Data de Ida</label>
+                    </div>
+                    <input
+                      type="date"
+                      min={new Date().toISOString().split("T")[0]} // impede datas anteriores
+                      placeholder="DD/MM/AAAA"
+                      className="w-full h-12 px-4 py-2 border border-gray-300 rounded-md text-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    />
                   </div>
 
-                  {/* Input de data real (oculto) */}
-                  <input
-                    ref={dateInputRef}
-                    type="date"
-                    value={date}
-                    onChange={handleDateChange}
-                    min={getMinDate()}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    style={{ zIndex: 1, pointerEvents: 'none' }}
-                  />
-
-                  {/* Indicador visual quando focado */}
-                  {showDatePicker && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg p-2 z-20">
-                      <div className="text-sm text-gray-600 text-center">
-                        Clique no ícone do calendário para selecionar a data
-                      </div>
+                  {/* Data de Volta */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <img src={CalendarIcon} alt="Data de Volta" className="w-5 h-5 text-blue-500" />
+                      <label className="text-sm font-medium text-gray-700">Data de Volta</label>
                     </div>
-                  )}
+                    <input
+                      type="date"
+                      min={new Date().toISOString().split("T")[0]}
+                      placeholder="DD/MM/AAAA"
+                      className="w-full h-12 px-4 py-2 border border-gray-300 rounded-md text-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Passageiros e Classe */}
+                <div className="flex flex-col sm:flex-row gap-6 w-full md:w-1/2">
+                  {/* Passageiros */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <img src={CalendarIcon} alt="Passageiros" className="w-5 h-5 text-blue-500" />
+                      <label className="text-sm font-medium text-gray-700">Passageiros</label>
+                    </div>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      placeholder="3 Pessoas"
+                      className="w-full h-12 px-4 py-2 border border-gray-300 rounded-md text-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    />
+                  </div>
+
+                  {/* Classe */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <img src={CalendarIcon} alt="Classe" className="w-5 h-5 text-blue-500" />
+                      <label className="text-sm font-medium text-gray-700">Classe</label>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Econômica"
+                      className="w-full h-12 px-4 py-2 border border-gray-300 rounded-md text-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -384,7 +390,7 @@ export default function App() {
 
       {/* RESULTS */}
       {showResults && (
-        <section className="max-w-5xl mx-auto px-4 space-y-8 pb-16">
+        <section className="max-w-5xl mx-auto px-4 space-y-8 pt-8 pb-16">
           {/* Cabeçalho com origem, avião e destino */}
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 text-gray-700">
@@ -466,25 +472,10 @@ export default function App() {
             </Card>
           </div>
 
-          {/* Gráfico */}
-          <Card className="bg-white border-[#7BFFF0]">
-            <CardHeader>
-              <CardTitle className="text-gray-800 text-xl">📈  Variação de Preços - Próximos 15 dias</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
-                <LineChart data={priceData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="price" stroke="#2563eb" strokeWidth={3} />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
         </section>
       )}
+
+      <Footer />
     </div>
   )
 }
