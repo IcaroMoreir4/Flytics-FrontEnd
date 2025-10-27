@@ -1,0 +1,5 @@
+[
+  { "origin": "GRU", "destination": "CDG", "date": "2025-09-15", "price": 2000 },
+  { "origin": "GRU", "destination": "CDG", "date": "2025-09-10", "price": 1400 },
+  { "origin": "GRU", "destination": "CDG", "date": "2025-09-19", "price": 1500 }
+]
