@@ -27,5 +27,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "backend/src/routes", "backend/src/server.ts", "backend/src/controllers"]
 }

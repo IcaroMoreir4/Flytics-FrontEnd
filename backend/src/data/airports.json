@@ -1,0 +1,26 @@
+[
+  {
+    "name": "São Paulo-Guarulhos International Airport",
+    "city": "São Paulo",
+    "country": "Brazil",
+    "iata_code": "GRU"
+  },
+  {
+    "name": "Paris Charles de Gaulle Airport",
+    "city": "Paris",
+    "country": "France",
+    "iata_code": "CDG"
+  },
+  {
+    "name": "John F. Kennedy International Airport",
+    "city": "New York",
+    "country": "United States",
+    "iata_code": "JFK"
+  },
+  {
+    "name": "Heathrow Airport",
+    "city": "London",
+    "country": "United Kingdom",
+    "iata_code": "LHR"
+  }
+]
