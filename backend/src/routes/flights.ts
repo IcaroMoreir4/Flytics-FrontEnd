@@ -1,9 +1,15 @@
 import { Router } from "express";
-import { getFlights, getAirports } from "../controllers/flightsController";
-
 const router = Router();
 
-router.get("/", getFlights);
-router.get("/airports", getAirports);
+// ✅ Test route
+router.get("/test", (req, res) => {
+  res.json({ message: "✅ Backend funcionando!" });
+});
+
+// Exemplo de rota POST (opcional)
+router.post("/search", (req, res) => {
+  const { origin, destination } = req.body;
+  res.json({ result: `Buscando voos de ${origin} para ${destination}` });
+});
 
 export default router;
