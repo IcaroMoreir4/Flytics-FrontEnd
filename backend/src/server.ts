@@ -1,14 +1,13 @@
 import express from "express";
+import routes from "./routes/flights";
 import cors from "cors";
-import flightsRouter from "./routes/flights";
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
-// 🔹 Rota principal da API
-app.use("/api/flights", flightsRouter);
+app.use("/api/flights", routes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(3001, () => {
+  console.log("Backend running on port 3001");
+});
